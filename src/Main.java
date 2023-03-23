@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,10 +18,17 @@ public class Main {
                     from countries c
                     join regions r on r.region_id = c.region_id\s
                     join continents c2 on c2.continent_id = r.continent_id\s
+                    where c.name like ?
                     order by country_name;
                     """;
 
+            Scanner scan = new Scanner(System.in);
+            System.out.println("What country would you like to search?");
+            String userSearch = scan.nextLine();
+
             PreparedStatement ps = conn.prepareStatement(query);
+
+            ps.setString(1, "%" + userSearch + "%");
 
             ResultSet rs = ps.executeQuery();
 
